@@ -10,8 +10,17 @@
   "author": "crstffr",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "1.15.0",
+    "compression": "1.6.1",
+    "cors": "^2.7.1",
+    "feathers-client": "1.1.0",
+    "feathers-errors": "2.1.0",
+    "feathers-memory": "0.7.1",
+    "feathers-nedb": "2.2.3",
+    "nedb": "1.8.0",
     "node-static": "0.7.7",
     "node-wmi": "0.0.3",
+    "serve-favicon": "2.3.0",
     "socket.io": "1.4.5"
   },
   "devDependencies": {
@@ -25,9 +34,9 @@
     },
     "dependencies": {
       "angular": "github:angular/bower-angular1.5.5",
-      "feathers": "github:feathersjs/feathers-client@1.1.0",
       "lodash": "npm:lodash@4.11.1",
-      "socketio": "github:socketio/socket.io-client@1.4.5"
+      "socketio": "github:socketio/socket.io-client@1.4.5",
+      "socketio-wildcard": "npm:socketio-wildcard@^0.3.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
@@ -35,11 +44,6 @@
       "core-js": "npm:core-js@^1.1.4"
     },
     "overrides": {
-      "github:feathersjs/feathers-client@1.1.0": {
-        "format": "cjs",
-        "main": "dist/feathers.js",
-        "dependencies": {}
-      },
       "github:socketio/socket.io-client@1.4.5": {
         "format": "cjs",
         "main": "socket.io.js",

@@ -1,7 +1,13 @@
 <html>
     <head>
         <title>Biawak</title>
+        <style>[ng-cloak]{ display: none; }</style>
         <script src="loader.js"></script>
     </head>
-    <body ng-controller="AppController as ctrl"></body>
+    <body ng-controller="AppController as ctrl">
+        <p><button ng-click="ctrl.add()">Add</button></p>
+        <p ng-cloak ng-repeat="item in ctrl.items">
+            {{item._id}}: {{item.name}}
+        </p>
+    </body>
 </html>

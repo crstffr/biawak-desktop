@@ -17,14 +17,17 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.6",
-    "feathers": "github:feathersjs/feathers-client@1.1.0",
     "lodash": "npm:lodash@4.11.1",
     "socketio": "github:socketio/socket.io-client@1.4.5",
+    "socketio-wildcard": "npm:socketio-wildcard@0.3.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.6.0"
+    },
+    "github:jspm/nodelibs-events@0.1.1": {
+      "events": "npm:events@1.0.2"
     },
     "github:jspm/nodelibs-path@0.1.0": {
       "path-browserify": "npm:path-browserify@0.0.0"
@@ -67,6 +70,9 @@ System.config({
     },
     "npm:process@0.11.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
+    },
+    "npm:socketio-wildcard@0.3.0": {
+      "events": "github:jspm/nodelibs-events@0.1.1"
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",

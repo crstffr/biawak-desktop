@@ -1,7 +1,6 @@
 var wmi = require('node-wmi');
 var StaticServer = require('node-static');
 
-
 module.exports = {
 
     init: function() {
