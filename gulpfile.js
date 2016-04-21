@@ -29,11 +29,11 @@ var paths = {
     },
 
     core: {
-        dist: dist,
         all: core + 'all.js',
         css: core + 'style/css/',
         sass: core + 'style/scss/',
         modules: app + 'modules/',
+        bundles: app + 'bundles/',
         components: app + 'components/'
     }
 };
@@ -86,7 +86,9 @@ gulp.task('default', ['help']);
 
 gulp.task('clean', 'Remove all static build files.', function (done) {
     sequence(
-        'clean-dist',
+        'clean-css',
+        'clean-bundles',
+        'unbundle',
         done
     );
 });
@@ -103,7 +105,7 @@ gulp.task('build', 'Build the application from source', function (done) {
 gulp.task('dist', 'Prepare app for distribution', function(done) {
     sequence(
         'clean',
-        'build-core',
+        'build',
         'bundle',
         done
     );
@@ -123,13 +125,17 @@ gulp.task('server', 'Start simple server, reload source files on change.', funct
  * CLEAN
  ***********************/
 
-gulp.task('clean-dist', function () {
+gulp.task('clean-css', function () {
     var del = require('del');
     return del([
-        paths.core.dist + '*.map',
-        paths.core.dist + '*.css',
-        paths.core.dist + '*.js'
+        core + '**/*.min.css',
+        core + '**/*.min.css.map'
     ]);
+});
+
+gulp.task('clean-bundles', function () {
+    var del = require('del');
+    return del(paths.core.bundles + '**/*');
 });
 
 /***********************
@@ -140,7 +146,7 @@ gulp.task('build-main-css', function () {
 
     var sass = require('gulp-sass');
     var rename = require('gulp-rename');
-    var minifyCSS = require('gulp-minify-css');
+    var minifyCSS = require('gulp-clean-css');
     var sourcemaps = require('gulp-sourcemaps');
     var sassJspm = require('sass-jspm-importer');
 
@@ -162,7 +168,7 @@ gulp.task('build-comp-css', function () {
 
     var sass = require('gulp-sass');
     var rename = require('gulp-rename');
-    var minifyCSS = require('gulp-minify-css');
+    var minifyCSS = require('gulp-clean-css');
     var sourcemaps = require('gulp-sourcemaps');
     var sassJspm = require('sass-jspm-importer');
 
@@ -184,7 +190,7 @@ gulp.task('build-vendor-css', function () {
 
     var sass = require('gulp-sass');
     var rename = require('gulp-rename');
-    var minifyCSS = require('gulp-minify-css');
+    var minifyCSS = require('gulp-clean-css');
     var sourcemaps = require('gulp-sourcemaps');
     var sassJspm = require('sass-jspm-importer');
 
