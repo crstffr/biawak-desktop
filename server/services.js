@@ -8,15 +8,15 @@ var services = {};
 var tables = {
     sensors: {
         autoload: true,
-        filename: './data/sensors.db'
+        filename: './database/sensors.db'
     },
     hardware: {
         autoload: true,
-        filename: './data/hardware.db'
+        filename: './database/hardware.db'
     },
     userprefs: {
         autoload: true,
-        filename: './data/userprefs.db'
+        filename: './database/userprefs.db'
     }
 };
 

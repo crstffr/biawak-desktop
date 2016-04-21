@@ -1,6 +1,6 @@
 var ip = require('ip');
-var app = require('./feathers/app');
-var services = require('./db/db.services');
+var app = require('./app');
+var services = require('./services');
 
 app.listen(8660);
 
