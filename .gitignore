@@ -2,7 +2,5 @@
 node_modules
 public/jspm_packages
 public/bundles.js
-public/bundles/**/*
-public/style/css
-**/*.min.css.map
-**/*.min.css
+public/app/**/*.min.css
+public/app/**/*.min.css.map
