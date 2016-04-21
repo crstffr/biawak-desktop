@@ -1,12 +1,12 @@
 var wmi = require('node-wmi');
-var static = require('node-static');
+var StaticServer = require('node-static');
 
 
 module.exports = {
 
     init: function() {
 
-        var server = new static.Server('./public');
+        var server = new StaticServer.Server('./public');
         var io = require('socket.io')(server);
 
         require('http').createServer(function (request, response) {

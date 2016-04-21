@@ -1,15 +1,13 @@
-'use strict';
+(function() {
+    
+    function load(script) {
+        document.write('<' + 'script src="' + script + '" type="text/javascript"><' + '/script>');
+    }
 
-var electron = require('electron');
-var ipc = electron.ipcRenderer;
-var app = {};
+    load('jspm_packages/system.js');
+    load('config.js');
+    load('bundle.js');
+    load('bootstrap.js');
 
-ipc.send('sensors');
+})();
 
-ipc.on('sensors', function(e, a){
-    console.log(e, a);
-});
-
-app.reload = function(){
-    ipc.send('reload');
-};

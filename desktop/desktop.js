@@ -1,4 +1,3 @@
-
 var electron = require('electron');
 var server = require('../server/server');
 
@@ -15,20 +14,19 @@ var mainWindow = null;
 
 server.init();
 
-ipc.on('reload', function (event, arg) {
-    mainWindow.reload();
+app.on('window-all-closed', function () {
 });
 
-app.on('window-all-closed', function() {});
+app.on('ready', function () {
 
-app.on('ready', function(){
-  appIcon = new Tray(iconImage);
-  var contextMenu = Menu.buildFromTemplate([
-    { label: 'Show', click: _show },
-    { label: 'Exit', click: app.quit }
-  ]);
-  appIcon.setToolTip('Biawak Monitor');
-  appIcon.setContextMenu(contextMenu);
+    appIcon = new Tray(iconImage);
+
+    appIcon.setToolTip('Biawak Monitor');
+
+    appIcon.setContextMenu(Menu.buildFromTemplate([
+        {label: 'Show', click: _show},
+        {label: 'Exit', click: app.quit}
+    ]));
 });
 
 function _show() {
@@ -43,10 +41,12 @@ function _show() {
         icon: iconImage
     });
 
-    mainWindow.toggleDevTools();
+    // mainWindow.toggleDevTools();
     // mainWindow.setMenu(null);
     mainWindow.loadURL('http://localhost:8662');
+
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
+
 }

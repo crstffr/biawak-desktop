@@ -1,9 +1,13 @@
 {
-  "name": "biawak-server",
-  "version": "1.0.0",
+  "name": "biawak-desktop",
+  "version": "0.1.0",
   "description": "Biawak Hardware Monitor Server",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:crstffr/biawak-desktop.git"
+  },
   "main": "desktop/desktop.js",
-  "author": "",
+  "author": "crstffr",
   "license": "ISC",
   "dependencies": {
     "node-static": "^0.7.7",
@@ -11,15 +15,16 @@
     "socket.io": "^1.4.5"
   },
   "devDependencies": {
-    "electron-reload": "^0.3.0"
+    "electron-reload": "^0.3.0",
+    "gulp": "^3.9.1",
+    "jspm": "^0.16.33",
+    "jspm-bundler": "^0.1.7"
   },
   "jspm": {
     "directories": {
       "baseURL": "public"
     },
-    "dependencies": {
-      "socket.io": "npm:socket.io@^1.4.5"
-    },
+    "dependencies": {},
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
