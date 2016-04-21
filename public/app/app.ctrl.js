@@ -1,7 +1,7 @@
 
-var feathers = window.feathers;
 var socketio = require('socketio');
 var wildcard = require('socketio-wildcard');
+var feathers = require('vendor/feathers');
 
 module.exports = AppController;
 

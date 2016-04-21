@@ -1,3 +1,5 @@
 .idea
 node_modules
 public/jspm_packages
+public/bundles.js
+public/bundles/**/*

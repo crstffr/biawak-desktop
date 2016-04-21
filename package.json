@@ -12,21 +12,31 @@
   "dependencies": {
     "body-parser": "1.15.0",
     "compression": "1.6.1",
-    "cors": "^2.7.1",
+    "cors": "2.7.1",
     "feathers-client": "1.1.0",
     "feathers-errors": "2.1.0",
     "feathers-memory": "0.7.1",
     "feathers-nedb": "2.2.3",
+    "ip": "1.1.2",
     "nedb": "1.8.0",
-    "node-static": "0.7.7",
     "node-wmi": "0.0.3",
     "serve-favicon": "2.3.0",
     "socket.io": "1.4.5"
   },
   "devDependencies": {
+    "browser-sync": "2.12.3",
+    "del": "2.2.0",
     "gulp": "3.9.1",
+    "gulp-help": "1.6.1",
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "2.3.0",
+    "gulp-sourcemaps": "2.0.0-alpha",
     "jspm": "0.16.33",
-    "jspm-bundler": "0.1.7"
+    "jspm-bundler": "0.1.7",
+    "minimist": "1.2.0",
+    "opn": "4.0.1",
+    "run-sequence": "1.1.5",
+    "sass-jspm-importer": "0.0.6"
   },
   "jspm": {
     "directories": {
@@ -36,12 +46,12 @@
       "angular": "github:angular/bower-angular1.5.5",
       "lodash": "npm:lodash@4.11.1",
       "socketio": "github:socketio/socket.io-client@1.4.5",
-      "socketio-wildcard": "npm:socketio-wildcard@^0.3.0"
+      "socketio-wildcard": "npm:socketio-wildcard@0.3.0"
     },
     "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
+      "babel": "npm:babel-core@5.8.24",
+      "babel-runtime": "npm:babel-runtime@5.8.24",
+      "core-js": "npm:core-js@1.1.4"
     },
     "overrides": {
       "github:socketio/socket.io-client@1.4.5": {

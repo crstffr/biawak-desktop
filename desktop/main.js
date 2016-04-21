@@ -1,5 +1,6 @@
+var ip = require('ip');
 var electron = require('electron');
-var server = require('../server/web/web');
+var server = require('../server/index');
 
 var app = electron.app;
 var ipc = electron.ipcMain;
@@ -10,8 +11,6 @@ var BrowserWindow = electron.BrowserWindow;
 var appIcon = null;
 var mainWindow = null;
 var iconImage = __dirname + '/icons/greenguy';
-
-server.init();
 
 app.on('window-all-closed', function () {});
 
@@ -42,7 +41,7 @@ function _show() {
 
     mainWindow.toggleDevTools();
     // mainWindow.setMenu(null);
-    mainWindow.loadURL('http://localhost:8662');
+    mainWindow.loadURL('http://' + ip.address() + ':8660');
 
     mainWindow.on('closed', function () {
         mainWindow = null;
