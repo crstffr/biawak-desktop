@@ -1,34 +1,50 @@
 {
   "name": "biawak-desktop",
   "version": "0.1.0",
-  "description": "Biawak Hardware Monitor Server",
+  "description": "Biawak Hardware Monitor",
   "repository": {
     "type": "git",
     "url": "git@github.com:crstffr/biawak-desktop.git"
   },
-  "main": "desktop/desktop.js",
+  "main": "desktop/main.js",
   "author": "crstffr",
   "license": "ISC",
   "dependencies": {
-    "node-static": "^0.7.7",
+    "node-static": "0.7.7",
     "node-wmi": "0.0.3",
-    "socket.io": "^1.4.5"
+    "socket.io": "1.4.5"
   },
   "devDependencies": {
-    "electron-reload": "^0.3.0",
-    "gulp": "^3.9.1",
-    "jspm": "^0.16.33",
-    "jspm-bundler": "^0.1.7"
+    "gulp": "3.9.1",
+    "jspm": "0.16.33",
+    "jspm-bundler": "0.1.7"
   },
   "jspm": {
     "directories": {
       "baseURL": "public"
     },
-    "dependencies": {},
+    "dependencies": {
+      "angular": "github:angular/bower-angular1.5.5",
+      "feathers": "github:feathersjs/feathers-client@1.1.0",
+      "lodash": "npm:lodash@4.11.1",
+      "socketio": "github:socketio/socket.io-client@1.4.5"
+    },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4"
+    },
+    "overrides": {
+      "github:feathersjs/feathers-client@1.1.0": {
+        "format": "cjs",
+        "main": "dist/feathers.js",
+        "dependencies": {}
+      },
+      "github:socketio/socket.io-client@1.4.5": {
+        "format": "cjs",
+        "main": "socket.io.js",
+        "dependencies": {}
+      }
     }
   }
 }
