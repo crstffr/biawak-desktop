@@ -7,6 +7,7 @@ var gulp = require('gulp-help')(require('gulp'), {
     hideDepsMessage: true
 });
 
+var _electron; // running instance of electron
 var settings = require('./settings');
 var sequence = require('run-sequence');
 
@@ -26,7 +27,8 @@ var paths = {
         npm: root + 'package.json',
         jspm: core + 'jspm_packages/',
         system: core + 'config.js',
-        bundle: root + 'bundle.config.js'
+        bundle: root + 'bundle.config.js',
+        settings: root + 'settings.js'
     },
 
     core: {
@@ -36,7 +38,11 @@ var paths = {
         modules: app + 'modules/',
         bundles: app + 'bundles/',
         components: app + 'components/'
-    }
+    },
+
+    desktop: root + 'desktop/',
+    server: root + 'server/'
+
 };
 
 /***********************
@@ -75,7 +81,16 @@ var globs = {
                 paths.core.sass + 'vendor/**/*.scss'
             ]
         }
+    },
+
+    desktop: {
+        js: paths.desktop + '**/*.js'
+    },
+
+    server: {
+        js: paths.server + '**/*.js'
     }
+
 };
 
 
@@ -112,11 +127,18 @@ gulp.task('dist', 'Prepare app for distribution', function(done) {
     );
 });
 
-gulp.task('server', 'Start simple server, reload source files on change.', function (done) {
+gulp.task('server', 'Start simple server, reload source files on change', function (done) {
     sequence(
         'build',
         'build:watch',
         'build:server',
+        done
+    );
+});
+
+gulp.task('desktop', 'Launch Electron, reload on source changes', function (done) {
+    sequence(
+        'electron:watch',
         done
     );
 });
@@ -280,3 +302,48 @@ gulp.task('build:server', function (done) {
     done();
 });
 
+
+/***********************
+ * ELECTRON DESKTOP
+ ***********************/
+
+gulp.task('electron:start', function(done){
+    var electron = require('electron-prebuilt');
+    var proc = require('child_process');
+    _electron = proc.spawn(electron, ['.']);
+    _electron.on('exit', function(){
+        done();
+    }).on('error', function(e){
+        console.log(e);
+    }).stdout.on('data', function(data) {
+        console.log(data.toString());
+    });
+});
+
+gulp.task('electron:stop', function(done) {
+    if (_electron) {
+        _electron.on('exit', function () {
+            _electron = false;
+            done();
+        }).kill('SIGINT');
+    } else {
+        done();
+    }
+});
+
+gulp.task('electron:watch', function(done) {
+    var watch = require('gulp-watch');
+    watch([
+        globs.server.js,
+        globs.desktop.js,
+        paths.config.settings
+    ], function() {
+        sequence(
+            'electron:stop',
+            'electron:start'
+        )
+    });
+    if (!_electron) {
+        sequence('electron:start');
+    }
+});

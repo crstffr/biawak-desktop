@@ -11,7 +11,7 @@ module.exports = {
     app: {
         icon: {
             mac: {
-                tray: './desktop/icons/greenguy-16.png',
+                tray: './desktop/icons/greenguy-20.png',
                 wind: './desktop/icons/greenguy-48.png'
             },
             win: {

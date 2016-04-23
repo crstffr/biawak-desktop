@@ -10,5 +10,5 @@ server.use('sensors', services['sensors']);
 var sensors = server.service('sensors');
 
 sensors.on('created', function(data) {
-    console.log('created', data);
+    console.log('new data inhuurr', data);
 });
