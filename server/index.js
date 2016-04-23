@@ -1,14 +1,13 @@
-var ip = require('ip');
-var app = require('./app');
+var server = require('./webserver');
 var services = require('./services');
+var settings = require('../settings');
 
-app.listen(8660);
+server.listen(settings.server.port);
+console.log('Webserver at http://' + settings.server.ip + ':' + settings.server.port);
 
-console.log('Webserver at http://' + ip.address() + ':8660');
+server.use('sensors', services['sensors']);
 
-app.use('sensors', services['sensors']);
-
-var sensors = app.service('sensors');
+var sensors = server.service('sensors');
 
 sensors.on('created', function(data) {
     console.log('created', data);

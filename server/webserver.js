@@ -9,6 +9,7 @@ var memory = require('feathers-memory');
 var bodyParser = require('body-parser');
 var socketio = require('feathers-socketio');
 var error = require('feathers-errors/handler');
+var settings = require('../settings');
 
 module.exports = feathers()
     .use(compress())
@@ -16,7 +17,7 @@ module.exports = feathers()
     .use(cors())
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({extended: true}))
-    .use(favicon('./desktop/icons/greenguy.ico'))
+    .use(favicon(settings.app.icon.win.tray))
     .use('/', feathers.static('./public/'))
     .use(error())
     .configure(socketio())

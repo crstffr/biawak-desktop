@@ -7,6 +7,7 @@ var gulp = require('gulp-help')(require('gulp'), {
     hideDepsMessage: true
 });
 
+var settings = require('./settings');
 var sequence = require('run-sequence');
 
 /***********************
@@ -208,38 +209,6 @@ gulp.task('build-vendor-css', function () {
         .pipe(gulp.dest(paths.core.css));
 });
 
-
-/***********************
- * BUILD DOCS
- ***********************/
-
-gulp.task('build-docs-pages', function() {
-    return gulp.src(globs.core.md)
-        .pipe(gulp.dest(paths.docs.source));
-});
-
-gulp.task('build-docs-css', function () {
-
-    var sass = require('gulp-sass');
-    var concat = require('gulp-concat');
-    var minifyCSS = require('gulp-minify-css');
-    var sourcemaps = require('gulp-sourcemaps');
-    var sassJspm = require('sass-jspm-importer');
-
-    return gulp.src(globs.docs.sass)
-        .pipe(sourcemaps.init())
-        .pipe(sass({
-            errLogToConsole: true,
-            includePaths: [paths.core.sass],
-            functions: sassJspm.resolve_function(paths.config.jspm),
-            importer: sassJspm.importer
-        }).on('error', sass.logError))
-        .pipe(concat('style.min.css'))
-        .pipe(minifyCSS())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.docs.css));
-});
-
 /***********************
  * BUNDLE
  ***********************/
@@ -282,7 +251,6 @@ gulp.task('build:watch', function () {
 
 gulp.task('build:server', function (done) {
 
-    var ip = require('ip');
     var opn = require('opn');
 
     // Starts a BrowserSync server that watches both
@@ -308,7 +276,7 @@ gulp.task('build:server', function (done) {
         ]
     });
 
-    opn('http://' + ip.address() + ':' + port);
+    opn('http://' + settings.server.ip + ':' + port);
     done();
 });
 

@@ -1,22 +1,24 @@
-var ip = require('ip');
 var electron = require('electron');
+var settings = require('../settings');
 var server = require('../server/index');
 
 var app = electron.app;
-var ipc = electron.ipcMain;
-const Menu = electron.Menu;
-const Tray = electron.Tray;
+var Menu = electron.Menu;
+var Tray = electron.Tray;
 var BrowserWindow = electron.BrowserWindow;
 
 var appIcon = null;
 var mainWindow = null;
-var iconImage = __dirname + '/icons/greenguy';
 
 app.on('window-all-closed', function () {});
 
 app.on('ready', function () {
 
-    appIcon = new Tray(iconImage + '-18.png');
+    var icon = (settings.env.isWin)
+        ? settings.app.icon.win.tray
+        : settings.app.icon.mac.tray;
+
+    appIcon = new Tray(icon);
 
     appIcon.setToolTip('Biawak Monitor');
 
@@ -33,15 +35,20 @@ function _show() {
         return;
     }
 
+    var icon = (settings.env.isWin)
+        ? settings.app.icon.win.wind
+        : settings.app.icon.mac.wind;
+
     mainWindow = new BrowserWindow({
         width: 1024,
         height: 768,
-        icon: iconImage + '.icns'
+        icon: icon
     });
 
     mainWindow.toggleDevTools();
     // mainWindow.setMenu(null);
-    mainWindow.loadURL('http://' + ip.address() + ':8660');
+
+    mainWindow.loadURL('http://' + settings.server.ip + ':' + settings.server.port);
 
     mainWindow.on('closed', function () {
         mainWindow = null;
