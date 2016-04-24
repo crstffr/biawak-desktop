@@ -20,6 +20,7 @@ var tables = {
     }
 };
 
+/*
 _.forEach(tables, function(options, name){
 
     var db = new NeDB(options);
@@ -30,5 +31,7 @@ _.forEach(tables, function(options, name){
         Model: db
     });
 });
+
+*/
 
 module.exports = services;

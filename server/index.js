@@ -1,5 +1,4 @@
 var server = require('./webserver');
-var services = require('./services');
 var settings = require('../settings');
 
 if (settings.env.isWin) {

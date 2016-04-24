@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var NeDB = require('nedb');
 var wmi = require('node-wmi');
 var settings = require('../../settings');
@@ -7,8 +8,6 @@ var FeatherApp = require('../webserver');
 module.exports = Collector;
 
 function Collector(opts) {
-
-    console.log('new collector', opts);
 
     var _this = this;
 
@@ -44,8 +43,20 @@ function Collector(opts) {
                 create: _timestamp,
                 update: _timestamp
             });
-            
+
+            _this.service.before({
+                create: _setId,
+                update: _setId
+            });
+
         }
+    }
+
+    function _setId(hook) {
+        if (hook.data.Identifier) {
+            hook.data._id = hook.data.Identifier;
+        }
+        return hook;
     }
 
     function _timestamp(hook) {
@@ -73,8 +84,6 @@ function Collector(opts) {
                     console.log(_this.query);
                     console.log(err);
                 } else {
-                    console.log('got data');
-                    console.log(data);
                     resolve(data);
                 }
             });
@@ -87,27 +96,19 @@ function Collector(opts) {
      */
     this.save = function(data) {
 
-        console.log('save data');
-        console.log(data);
-
         if (opts.database.overwrite) {
-            var id = 1;
-            return _this.service.get(id).then(function(item){
-
-                return _this.service.update(id, data);
-            }).catch(function(){
-                data._id = id;
-
-                console.log('item doesnt exist');
-                return sensors.create(data);
-            });
-        } else {
-
-            console.log('create new record', data);
-
-            return _this.service.create(data);
+            if (_.isArray(data)) {
+                return Promise.all(_.map(data, _this.save));
+            }
         }
-    };
 
+        return _this.service.create(data).catch(function(err){
+            if (err.errorType === 'uniqueViolated') {
+                return _this.service.update(data.Identifier, data);
+            } else {
+                console.log('Error saving data', err);
+            }
+        });
+    };
 
 }
