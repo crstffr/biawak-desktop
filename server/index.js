@@ -2,13 +2,21 @@ var server = require('./webserver');
 var services = require('./services');
 var settings = require('../settings');
 
-server.listen(settings.server.port);
-console.log('Webserver at http://' + settings.server.ip + ':' + settings.server.port);
+if (settings.env.isWin) {
 
-server.use('sensors', services['sensors']);
+    var SensorCollector = require('./collectors/sensor/sensor.collector');
+    var sensors = new SensorCollector();
+    sensors.collect();
 
-var sensors = server.service('sensors');
+} else {
 
-sensors.on('created', function(data) {
-    console.log('new data inhuurr', data);
-});
+    console.log('- Warning ---------------------------------');
+    console.log('- Hardware monitoring only works in Windows');
+    console.log();
+
+}
+
+server.listen(settings.webserver.port);
+console.log('- Web Server Started ----------------------');
+console.log('- Running at http://' + settings.webserver.ip + ':' + settings.webserver.port);
+

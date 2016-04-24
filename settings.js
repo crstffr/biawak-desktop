@@ -8,7 +8,16 @@ module.exports = {
         isMac: os.platform() === 'darwin'
     },
 
-    app: {
+    webserver: {
+        ip: ip.address(),
+        port: 8660
+    },
+    
+    database: {
+        location: __dirname + '/storage/'
+    },
+
+    desktop: {
         icon: {
             mac: {
                 tray: './desktop/icons/greenguy-20.png',
@@ -19,11 +28,5 @@ module.exports = {
                 wind: './desktop/icons/greenguy.ico'
             }
         }
-    },
-
-    server: {
-        ip: ip.address(),
-        port: 8660
     }
-
 };

@@ -8,21 +8,26 @@ var services = {};
 var tables = {
     sensors: {
         autoload: true,
-        filename: './database/sensors.db'
+        filename: './storage/sensors.db'
     },
     hardware: {
         autoload: true,
-        filename: './database/hardware.db'
+        filename: './storage/hardware.db'
     },
     userprefs: {
         autoload: true,
-        filename: './database/userprefs.db'
+        filename: './storage/userprefs.db'
     }
 };
 
 _.forEach(tables, function(options, name){
+
+    var db = new NeDB(options);
+
+    db.persistence.setAutocompactionInterval(5000);
+
     services[name] = service({
-        Model: new NeDB(options)
+        Model: db
     });
 });
 

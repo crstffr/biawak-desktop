@@ -15,8 +15,8 @@ app.on('window-all-closed', function () {});
 app.on('ready', function () {
 
     var icon = (settings.env.isWin)
-        ? settings.app.icon.win.tray
-        : settings.app.icon.mac.tray;
+        ? settings.desktop.icon.win.tray
+        : settings.desktop.icon.mac.tray;
 
     appIcon = new Tray(icon);
 
@@ -36,8 +36,8 @@ function _show() {
     }
 
     var icon = (settings.env.isWin)
-        ? settings.app.icon.win.wind
-        : settings.app.icon.mac.wind;
+        ? settings.desktop.icon.win.wind
+        : settings.desktop.icon.mac.wind;
 
     mainWindow = new BrowserWindow({
         width: 1024,
