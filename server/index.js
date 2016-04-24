@@ -1,11 +1,16 @@
 var server = require('./webserver');
+var Monitor = require('./monitor');
 var settings = require('../settings');
 
 if (settings.env.isWin) {
 
+    var monitor = new Monitor();
+    monitor.start();
+    /*
     var SensorCollector = require('./collectors/sensor/sensor.collector');
     var sensors = new SensorCollector();
     sensors.collect();
+    */
 
 } else {
 

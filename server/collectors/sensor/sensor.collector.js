@@ -1,5 +1,4 @@
 
-var _ = require('lodash');
 var Collector = require('../collector');
 
 module.exports = SensorCollector;
