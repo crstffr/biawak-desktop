@@ -87,16 +87,6 @@ function AppController($timeout) {
             $timeout();
         });
 
-        /*
-        _this.update = function() {
-            if (_this.item) {
-                sensors.patch(_this.item._id, {now: new Date()}).then(function(){
-                    $timeout();
-                });
-            }
-        };
-        */
-
         return socket;
 
     }

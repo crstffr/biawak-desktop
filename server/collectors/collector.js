@@ -8,6 +8,8 @@ module.exports = Collector;
 
 function Collector(opts) {
 
+    console.log('new collector', opts);
+
     var _this = this;
 
     if (opts.wmi) {
