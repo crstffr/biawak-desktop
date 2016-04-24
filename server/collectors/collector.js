@@ -71,6 +71,8 @@ function Collector(opts) {
                     console.log(_this.query);
                     console.log(err);
                 } else {
+                    console.log('got data');
+                    console.log(data);
                     resolve(data);
                 }
             });
@@ -82,15 +84,25 @@ function Collector(opts) {
      * @param {Array|Object} data
      */
     this.save = function(data) {
+
+        console.log('save data');
+        console.log(data);
+
         if (opts.database.overwrite) {
             var id = 1;
             return _this.service.get(id).then(function(item){
+
                 return _this.service.update(id, data);
             }).catch(function(){
                 data._id = id;
+
+                console.log('item doesnt exist');
                 return sensors.create(data);
             });
         } else {
+
+            console.log('create new record', data);
+
             return _this.service.create(data);
         }
     };
