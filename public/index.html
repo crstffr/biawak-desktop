@@ -11,9 +11,13 @@
 
         <div ng-cloak ng-if="ctrl.connected">
             <h2>Connected</h2>
-            <p ng-cloak ng-repeat="item in ctrl.items">
-                {{item.Identifier}} {{item.Value}} {{item.SensorType}}
+            <p ng-cloak ng-repeat="hardware in ctrl.hardware">
+                {{hardware._id}} {{hardware.HardwareType}} {{hardware.Name}}
             </p>
+            <p ng-cloak ng-repeat="sensor in ctrl.sensors">
+                {{sensor._id}} {{sensor.Value}} {{sensor.SensorType}}
+            </p>
+
         </div>
 
     </body>

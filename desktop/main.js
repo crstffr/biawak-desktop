@@ -1,6 +1,6 @@
 var electron = require('electron');
 var settings = require('../settings');
-var server = require('../server/index');
+var webserver = require('../server/index');
 
 var app = electron.app;
 var Menu = electron.Menu;
@@ -18,14 +18,21 @@ app.on('ready', function () {
         ? settings.desktop.icon.win.tray
         : settings.desktop.icon.mac.tray;
 
-    appIcon = new Tray(icon);
+    webserver.whenReady().then(function(){
 
-    appIcon.setToolTip('Biawak Monitor');
+        appIcon = new Tray(icon);
 
-    appIcon.setContextMenu(Menu.buildFromTemplate([
-        {label: 'Show', click: _show},
-        {label: 'Exit', click: app.quit}
-    ]));
+        appIcon.setToolTip('Biawak Monitor');
+
+        appIcon.setContextMenu(Menu.buildFromTemplate([
+            {label: 'Show', click: _show},
+            {label: 'Exit', click: app.quit}
+        ]));
+
+        _show();
+
+    });
+
 });
 
 function _show() {

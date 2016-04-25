@@ -11,7 +11,9 @@ function AppController($timeout) {
 
     var _this = this;
 
-    this.items = [];
+    this.sensors = [];
+    this.hardware = [];
+
     this.socket = false;
     this.connected = false;
 
@@ -41,6 +43,8 @@ function AppController($timeout) {
 
     };
 
+    _this.connect();
+
     function _connectToServer(ip, port) {
 
         if (_this.socket) {
@@ -64,22 +68,46 @@ function AppController($timeout) {
             .configure(feathers.hooks())
             .configure(feathers.socketio(socket));
 
-        var sensors = app.service('sensors');
+        var sensor = app.service('sensor');
+        var hardware = app.service('hardware');
 
-        sensors.on('created', function (item) {
-            _this.items.push(item);
+        hardware.on('created', function(item){
+            // console.log('created', item);
+            _this.hardware.push(item);
             $timeout();
         });
 
-        sensors.on('updated', function (item) {
-            upsert(_this.items, {Identifier: item.Identifier}, item);
+        hardware.on('updated', function(item){
+            // console.log('updated', item);
+            upsert(_this.hardware, {_id: item._id}, item);
+
+            console.log(_this.hardware.length);
+            $timeout();
+        });
+        
+        hardware.find({}).then(function (items) {
+            _this.hardware = items;
             $timeout();
         });
 
-        sensors.find({}).then(function (items) {
-            _this.items = items;
+        sensor.on('created', function (item) {
+            // console.log('created', item);
+            _this.sensors.push(item);
             $timeout();
         });
+
+        sensor.on('updated', function (item) {
+            // console.log('updated', item);
+            upsert(_this.sensors, {_id: item._id}, item);
+            $timeout();
+        });
+
+        sensor.find({}).then(function (items) {
+            _this.sensors = items;
+            $timeout();
+        });
+
+        
 
         return socket;
 

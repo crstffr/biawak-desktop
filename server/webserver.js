@@ -13,39 +13,37 @@ var socketio = require('feathers-socketio');
 var error = require('feathers-errors/handler');
 var settings = require('../settings');
 
-var _ready = defer();
-
 var _oc = []; // onConnect callbacks
 var _od = []; // onDisconnect callbacks
+var _ready = defer();
 
 var _server = {
     io: {},
     app: {},
     clients: 0,
 
-    start: function() {
+    start: function () {
         this.app.listen(settings.webserver.port);
+        _ready.resolve();
         return _ready.promise;
     },
 
-    whenReady: function(){
+    whenReady: function () {
         return _ready.promise;
     },
 
-    onConnect: function(cb){
+    onConnect: function (cb) {
         if (_.isFunction(cb)) {
             _oc.push(cb);
         }
     },
 
-    onDisconnect: function(cb) {
+    onDisconnect: function (cb) {
         if (_.isFunction(cb)) {
             _od.push(cb);
         }
     }
 };
-
-module.exports = _server;
 
 _server.app = feathers()
     .use(compress())
@@ -65,24 +63,18 @@ _server.app = feathers()
         io.on('connection', function (socket) {
 
             _server.clients++;
-
-            _.forEach(_oc, function(cb){
+            _.forEach(_oc, function (cb) {
                 cb(socket);
             });
 
-            socket.on('disconnect', function(){
-
+            socket.on('disconnect', function () {
                 _server.clients--;
-
-                _.forEach(_od, function(cb){
+                _.forEach(_od, function (cb) {
                     cb();
                 });
             });
         });
 
-    }))
-    .configure(function(){
+    }));
 
-        _ready.resolve(_server);
-
-    });
+module.exports = _server;

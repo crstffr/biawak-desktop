@@ -1,21 +1,22 @@
 
 var Collector = require('../collector');
+var Datastore = require('../../datastores/nedb.datastore');
 
 module.exports = SensorCollector;
 
 function SensorCollector() {
 
-    var _this = this;
+    return new Collector({
 
-    Collector.call(this, {
+        name: 'sensor',
 
-        name: 'sensors',
         interval: 1000,
 
-        database: {
-            file: 'sensors.db',
-            overwrite: true
-        },
+        datastore: new Datastore({
+            inMemoryOnly: true
+            //filename: 'sensors.db'
+            //timestampData: true
+        }),
         
         wmi: {
             class: 'Sensor',
