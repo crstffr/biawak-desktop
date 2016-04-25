@@ -20,6 +20,7 @@
     "ip": "1.1.2",
     "nedb": "1.8.0",
     "node-wmi": "0.0.3",
+    "promise-defer": "^1.0.0",
     "serve-favicon": "2.3.0",
     "socket.io": "1.4.5"
   },

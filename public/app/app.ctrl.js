@@ -1,7 +1,7 @@
-
 var socketio = require('socketio');
 var wildcard = require('socketio-wildcard');
 var feathers = require('./vendor/feathers');
+var upsert = require('./utils/upsert');
 
 module.exports = AppController;
 
@@ -18,21 +18,21 @@ function AppController($timeout) {
     this.port = 8660;
     this.ip = window.location.hostname;
 
-    this.connect = function() {
+    this.connect = function () {
 
         var socket = _connectToServer(_this.ip, _this.port);
 
-        socket.on('connect', function(){
+        socket.on('connect', function () {
 
             _this.connected = true;
             $timeout();
 
-        }).on('connect_error', function(e) {
+        }).on('connect_error', function (e) {
 
             console.error('connection error', e);
             socket.disconnect();
 
-        }).on('disconnect', function() {
+        }).on('disconnect', function () {
 
             console.log('disconnected');
             _this.connected = false;
@@ -58,10 +58,7 @@ function AppController($timeout) {
         var patch = wildcard(socketio.Manager);
         patch(socket);
 
-        socket.on('*', function(thing){
-            console.log('socket event', thing);
-            $timeout();
-        });
+        socket.on('*', $timeout);
 
         var app = feathers()
             .configure(feathers.hooks())
@@ -69,21 +66,18 @@ function AppController($timeout) {
 
         var sensors = app.service('sensors');
 
-        sensors.on('created', function(item) {
-            console.log('item created', item);
-            _this.item = item;
+        sensors.on('created', function (item) {
+            _this.items.push(item);
             $timeout();
         });
 
-        sensors.on('updated', function(item){
-            console.log('item updated', item);
-            _this.item = item;
+        sensors.on('updated', function (item) {
+            upsert(_this.items, {Identifier: item.Identifier}, item);
             $timeout();
         });
 
-        sensors.get(1).then(function(item){
-            console.log('found item', item);
-            _this.item = item;
+        sensors.find({}).then(function (items) {
+            _this.items = items;
             $timeout();
         });
 
@@ -93,3 +87,4 @@ function AppController($timeout) {
 
 
 }
+

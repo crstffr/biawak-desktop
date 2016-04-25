@@ -7,6 +7,7 @@ function Monitor() {
 
     var _this = this;
     var _retries = 0;
+    var _maxRetry = 5;
 
     this.path = path.join(__dirname, '../monitor/OpenHardwareMonitor.exe');
 
@@ -20,20 +21,23 @@ function Monitor() {
 
         return new Promise(function(resolve, reject) {
 
-            _this.proc.on('message', function(thing) {
+            _this.proc.on('close', function(code) {
 
-                console.log('message', thing);
-
-            }).on('close', function(code) {
-                if (code === 0 && _retries < 5) {
+                if (code === 0 && _retries < _maxRetry) {
                     _retries++;
                     _this.start();
-                    console.log('Restarting Monitor...');
+                } else if (_retries >= _maxRetry) {
+                    console.log('- Restarted monitor the max number of retries');
                 }
+
             }).on('error', function(e){
                 console.log('Error opening Monitor', e);
                 reject(e);
             });
+
+            setTimeout(function(){
+                resolve(_this.proc);
+            }, 2000);
 
         });
 

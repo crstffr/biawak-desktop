@@ -2,14 +2,17 @@ var _ = require('lodash');
 var NeDB = require('nedb');
 var wmi = require('node-wmi');
 var settings = require('../../settings');
+var MemoryDB = require('feathers-memory');
 var FeatherDB = require('feathers-nedb');
-var FeatherApp = require('../webserver');
+var webserver = require('../webserver');
 
 module.exports = Collector;
 
 function Collector(opts) {
 
     var _this = this;
+
+    _this.name = opts.name;
 
     if (opts.wmi) {
 
@@ -31,13 +34,12 @@ function Collector(opts) {
             filename: settings.database.location + opts.database.file
         });
 
-        _this.database.persistence.setAutocompactionInterval(5000);
+        _this.database.persistence.setAutocompactionInterval(opts.interval || 5000);
 
         if (opts.name) {
-            
-            FeatherApp.use(opts.name, FeatherDB({Model: _this.database}));
-            
-            _this.service = FeatherApp.service(opts.name);
+
+            _this.db = FeatherDB({Model: _this.database});
+            _this.service = webserver.app.service(opts.name, _this.db);
 
             _this.service.before({
                 create: _timestamp,
@@ -48,7 +50,6 @@ function Collector(opts) {
                 create: _setId,
                 update: _setId
             });
-
         }
     }
 
@@ -65,13 +66,34 @@ function Collector(opts) {
     }
 
     /**
-     *
+     * Start collecting at a regular interval.
+     */
+    this.start = function() {
+        _this.stop();
+        _this.collect();
+        _this.interval = setInterval(_this.collect, opts.interval || 1000);
+        console.log('- Start collecting data from', _this.name);
+    };
+
+    /**
+     * Stop collecting at an interval.
+     */
+    this.stop = function() {
+        if (_this.interval) {
+            clearInterval(_this.interval);
+            console.log('- Stop collecting data from', _this.name);
+        }
+    };
+
+    /**
+     * Get data from the WMI and save it to the database.
      */
     this.collect = function() {
         return _this.get().then(_this.save);
     };
 
     /**
+     * Get data from the WMI.
      *
      * @returns {Promise}
      */
@@ -91,6 +113,7 @@ function Collector(opts) {
     };
 
     /**
+     * Save data to the database.
      *
      * @param {Array|Object} data
      */
@@ -107,6 +130,7 @@ function Collector(opts) {
                 return _this.service.update(data.Identifier, data);
             } else {
                 console.log('Error saving data', err);
+                return Promise.reject(err);
             }
         });
     };

@@ -48,7 +48,7 @@ function _show() {
     mainWindow.toggleDevTools();
     // mainWindow.setMenu(null);
 
-    mainWindow.loadURL('http://' + settings.server.ip + ':' + settings.server.port);
+    mainWindow.loadURL('http://' + settings.webserver.ip + ':' + settings.webserver.port);
 
     mainWindow.on('closed', function () {
         mainWindow = null;
