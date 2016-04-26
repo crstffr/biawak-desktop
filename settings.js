@@ -8,7 +8,7 @@ module.exports = {
         isMac: os.platform() === 'darwin'
     },
 
-    webserver: {
+    server: {
         ip: ip.address(),
         port: 8660
     },

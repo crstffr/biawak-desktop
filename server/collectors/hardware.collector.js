@@ -1,6 +1,6 @@
 
-var Collector = require('../collector');
-var Datastore = require('../../datastores/nedb.datastore');
+var Datastore = require('../datastores/nedb');
+var Collector = require('../models/collector.model');
 
 module.exports = HardwareCollector;
 
@@ -10,11 +10,11 @@ function HardwareCollector() {
 
         name: 'hardware',
 
-        interval: 60000,
+        interval: 1000 * 60 * 60 * 24,
 
         datastore: new Datastore({
-            // inMemoryOnly: true
-            filename: 'hardware.db'
+            id: 'Identifier',
+            inMemoryOnly: true
         }),
 
         wmi: {

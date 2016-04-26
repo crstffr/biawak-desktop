@@ -6,17 +6,38 @@
     </head>
     <body ng-controller="AppController as ctrl">
 
-        <input type="text" ng-model="ctrl.ip"><input maxlength="5" type="number" ng-model="ctrl.port">
+        <input type="text" ng-model="ctrl.ip">
         <button type="button" ng-click="ctrl.connect()">Connect</button>
 
         <div ng-cloak ng-if="ctrl.connected">
             <h2>Connected</h2>
-            <p ng-cloak ng-repeat="hardware in ctrl.hardware">
-                {{hardware._id}} {{hardware.HardwareType}} {{hardware.Name}}
+            
+            <h3>Sensors</h3>
+            <p ng-cloak ng-repeat="item in ctrl.streams.sensor | orderBy: 'Parent'">
+                {{item._id}} {{item.Value}} {{item.SensorType}}
             </p>
-            <p ng-cloak ng-repeat="sensor in ctrl.sensors">
-                {{sensor._id}} {{sensor.Value}} {{sensor.SensorType}}
+
+            <h3>Hardware</h3>
+            <p ng-cloak ng-repeat="item in ctrl.streams.hardware | orderBy: '_id'">
+                {{item._id}} {{item.HardwareType}} {{item.Name}}
             </p>
+
+            <h3>CPU</h3>
+            <p ng-cloak ng-repeat="item in ctrl.streams.cpu">
+                {{item.Manufacturer}} {{item.Name}}
+            </p>
+            
+            <h3>Bios</h3>
+            <p ng-cloak ng-repeat="item in ctrl.streams.bios">
+                {{item.Manufacturer}} {{item.Description}}
+            </p>
+
+            <!--
+            <h3>Processes</h3>
+            <p ng-cloak ng-repeat="item in ctrl.streams.process">
+                {{item._id}} {{item.Name}}: ThreadCount {{item.ThreadCount}}
+            </p>
+            -->
 
         </div>
 

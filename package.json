@@ -17,6 +17,7 @@
     "feathers-errors": "2.1.0",
     "feathers-memory": "0.7.1",
     "feathers-nedb": "2.2.3",
+    "glob": "^7.0.3",
     "ip": "1.1.2",
     "nedb": "1.8.0",
     "node-wmi": "0.0.3",

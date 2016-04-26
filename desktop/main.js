@@ -1,6 +1,6 @@
 var electron = require('electron');
 var settings = require('../settings');
-var webserver = require('../server/index');
+var server = require('../server/index');
 
 var app = electron.app;
 var Menu = electron.Menu;
@@ -18,7 +18,7 @@ app.on('ready', function () {
         ? settings.desktop.icon.win.tray
         : settings.desktop.icon.mac.tray;
 
-    webserver.whenReady().then(function(){
+    server.whenReady().then(function(){
 
         appIcon = new Tray(icon);
 
@@ -29,7 +29,7 @@ app.on('ready', function () {
             {label: 'Exit', click: app.quit}
         ]));
 
-        _show();
+        // _show();
 
     });
 
@@ -55,7 +55,7 @@ function _show() {
     mainWindow.toggleDevTools();
     // mainWindow.setMenu(null);
 
-    mainWindow.loadURL('http://' + settings.webserver.ip + ':' + settings.webserver.port);
+    mainWindow.loadURL('http://' + settings.server.ip + ':' + settings.server.port);
 
     mainWindow.on('closed', function () {
         mainWindow = null;

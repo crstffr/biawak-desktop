@@ -1,6 +1,6 @@
 
-var Collector = require('../collector');
-var Datastore = require('../../datastores/nedb.datastore');
+var Datastore = require('../datastores/nedb');
+var Collector = require('../models/collector.model');
 
 module.exports = SensorCollector;
 
@@ -13,9 +13,8 @@ function SensorCollector() {
         interval: 1000,
 
         datastore: new Datastore({
+            id: 'Identifier',
             inMemoryOnly: true
-            //filename: 'sensors.db'
-            //timestampData: true
         }),
         
         wmi: {

@@ -1,43 +1,42 @@
 var _ = require('lodash');
 var NeDB = require('nedb');
 var wmi = require('node-wmi');
+var WmiClient = require('wmi-client');
+
 var settings = require('../../settings');
 var MemoryDB = require('feathers-memory');
 var FeatherDB = require('feathers-nedb');
-var webserver = require('../webserver');
+var server = require('../webserver');
 
-module.exports = Collector;
+module.exports = CollectorModel;
 
-function Collector(opts) {
+function CollectorModel(opts) {
 
     var _this = this;
-    
-    _this.opts = opts;
 
+    _this.opts = opts;
     _this.name = _this.opts.name;
 
+    /**
+     *
+     */
     if (_this.opts.wmi) {
 
-        _this.query = wmi.Query();
+        _this.wmi = new WmiClient({
+            host: settings.server.ip,
+            namespace: _this.opts.wmi.namespace
+        });
 
-        if (_this.opts.wmi.namespace) {
-            _this.query = _this.query.namespace(_this.opts.wmi.namespace);
-        }
-
-        if (_this.opts.wmi.class) {
-            _this.query = _this.query.class(_this.opts.wmi.class);
-        }
-
-        console.log(_this.query);
-
+        var query = _this.opts.wmi.query || 'Select *';
+        _this.query = query + ' FROM ' + _this.opts.wmi.class;
     }
 
+    /**
+     *
+     */
     if (_this.opts.datastore) {
-
         if (_this.opts.name) {
-
-            _this.service = webserver.app.service(_this.opts.name, _this.opts.datastore.db);
-
+            _this.service = server.app.service(_this.opts.name, _this.opts.datastore.db);
             _this.service.before({
                 create: _setId,
                 update: _setId
@@ -45,15 +44,27 @@ function Collector(opts) {
         }
     }
 
+    /**
+     *
+     * @param hook
+     * @returns {*}
+     * @private
+     */
     function _setId(hook) {
-        if (hook.data.Identifier) {
-            hook.data._id = _getId(hook.data.Identifier);
+        var id = _this.opts.datastore.opts.id;
+        if (hook.data[id]) {
+            hook.data._id = _getId(hook.data[id]);
         }
         return hook;
     }
 
+    /**
+     *
+     * @param id
+     * @returns {string}
+     * @private
+     */
     function _getId(id) {
-        
         return _this.opts.name + ':' + id;
     }
 
@@ -62,7 +73,7 @@ function Collector(opts) {
      */
     this.start = function () {
         _this.stop();
-        setTimeout(_this.collect, 1000);
+        setTimeout(_this.collect, 500);
         _this.interval = setInterval(_this.collect, _this.opts.interval || 1000);
         console.log('- Start collecting data from', _this.name);
     };
@@ -92,7 +103,7 @@ function Collector(opts) {
      */
     this.get = function () {
         return new Promise(function (resolve, reject) {
-            _this.query.exec(function (err, data) {
+            _this.wmi.query(_this.query, function (err, data) {
                 if (err) {
                     reject(err);
                     console.log('Error fetching WMI');
@@ -124,10 +135,7 @@ function Collector(opts) {
                 return Promise.reject(err);
             }
         }).then(function(item){
-
-            //console.log('saved item', item._id);
             return item;
-
         });
     };
 

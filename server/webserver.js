@@ -23,7 +23,7 @@ var _server = {
     clients: 0,
 
     start: function () {
-        this.app.listen(settings.webserver.port);
+        this.app.listen(settings.server.port);
         _ready.resolve();
         return _ready.promise;
     },

@@ -1,15 +1,15 @@
 var path = require('path');
 var proc = require('child_process');
 
-module.exports = Monitor;
+module.exports = new MonitorService();
 
-function Monitor() {
+function MonitorService() {
 
     var _this = this;
     var _retries = 0;
     var _maxRetry = 5;
 
-    this.path = path.join(__dirname, '../monitor/OpenHardwareMonitor.exe');
+    this.path = path.join(__dirname, '../../../monitor/OpenHardwareMonitor.exe');
 
     /**
      *

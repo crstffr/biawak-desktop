@@ -11,15 +11,24 @@ function AppController($timeout) {
 
     var _this = this;
 
-    this.sensors = [];
-    this.hardware = [];
-
+    this.app = {};
+    this.streams = {};
+    this.services = {};
     this.socket = false;
     this.connected = false;
 
     this.port = 8660;
     this.ip = window.location.hostname;
 
+    var _queries = {
+        process: {
+            $limit: 10,
+            $sort: { ThreadCount: -1 }
+        }
+    };
+    /**
+     *
+     */
     this.connect = function () {
 
         var socket = _connectToServer(_this.ip, _this.port);
@@ -45,6 +54,13 @@ function AppController($timeout) {
 
     _this.connect();
 
+    /**
+     *
+     * @param ip
+     * @param port
+     * @returns {*}
+     * @private
+     */
     function _connectToServer(ip, port) {
 
         if (_this.socket) {
@@ -58,61 +74,62 @@ function AppController($timeout) {
         };
 
         var url = 'http://' + ip + ':' + port;
-        var socket = _this.socket = socketio(url, opts);
-        var patch = wildcard(socketio.Manager);
-        patch(socket);
+        _this.socket = _this.socket = socketio(url, opts);
+        wildcard(socketio.Manager)(_this.socket); // allows use of wildcards
 
-        socket.on('*', $timeout);
+        _this.socket.on('*', $timeout);
 
-        var app = feathers()
+        _this.app = feathers()
             .configure(feathers.hooks())
-            .configure(feathers.socketio(socket));
+            .configure(feathers.socketio(_this.socket));
 
-        var sensor = app.service('sensor');
-        var hardware = app.service('hardware');
+        var collectors = _this.app.service('collectors');
 
-        hardware.on('created', function(item){
-            // console.log('created', item);
-            _this.hardware.push(item);
-            $timeout();
-        });
+        collectors.find({}).then(_registerCollectors);
 
-        hardware.on('updated', function(item){
-            // console.log('updated', item);
-            upsert(_this.hardware, {_id: item._id}, item);
-
-            console.log(_this.hardware.length);
-            $timeout();
-        });
-        
-        hardware.find({}).then(function (items) {
-            _this.hardware = items;
-            $timeout();
-        });
-
-        sensor.on('created', function (item) {
-            // console.log('created', item);
-            _this.sensors.push(item);
-            $timeout();
-        });
-
-        sensor.on('updated', function (item) {
-            // console.log('updated', item);
-            upsert(_this.sensors, {_id: item._id}, item);
-            $timeout();
-        });
-
-        sensor.find({}).then(function (items) {
-            _this.sensors = items;
-            $timeout();
-        });
-
-        
-
-        return socket;
+        return _this.socket;
 
     }
 
+
+    function _registerCollectors(items) {
+
+        var pull = require('lodash/pull');
+        var forEach = require('lodash/forEach');
+
+        forEach(items, function(item){
+
+            var name = item._id;
+            var service = _this.app.service(name);
+
+            forEach(service.events, function(event){
+                //service.on(event, $timeout);
+            });
+
+            _this.streams[name] = [];
+            _this.services[name] = service;
+
+            var query = _queries[name] || {};
+
+            service.find({query: query}).then(function(items) {
+                _this.streams[name] = items;
+            });
+
+            service.on('created', function(item) {
+                _this.streams[name].push(item);
+            });
+
+            service.on('updated', function(item) {
+                upsert(_this.streams[name], {_id: item._id}, item);
+            });
+
+            service.on('removed', function(item) {
+                pull(_this.streams[name], item);
+            });
+
+        })
+
+    }
 
 }
 
