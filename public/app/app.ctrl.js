@@ -3,13 +3,17 @@ var wildcard = require('socketio-wildcard');
 var feathers = require('./vendor/feathers');
 var upsert = require('./utils/upsert');
 
+require('./vendor/photon/common');
+
 module.exports = AppController;
 
-AppController.$inject = ['$timeout'];
+AppController.$inject = ['$timeout', '$state'];
 
-function AppController($timeout) {
+function AppController($timeout, $state) {
 
     var _this = this;
+
+    this.$state = $state;
 
     this.app = {};
     this.streams = {};
@@ -18,7 +22,7 @@ function AppController($timeout) {
     this.connected = false;
 
     this.port = 8660;
-    this.ip = window.location.hostname;
+    this.ip = '192.168.66.24'; // window.location.hostname;
 
     var _queries = {
         process: {

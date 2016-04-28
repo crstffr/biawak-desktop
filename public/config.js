@@ -17,9 +17,21 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.6",
+    "css": "github:systemjs/plugin-css@0.1.21",
+    "jquery": "npm:jquery@2.2.3",
+    "jquery-ui": "github:components/jqueryui@1.11.4",
     "lodash": "npm:lodash@4.11.1",
     "socketio": "github:socketio/socket.io-client@1.4.5",
     "socketio-wildcard": "npm:socketio-wildcard@0.3.0",
+    "text": "github:systemjs/plugin-text@0.0.7",
+    "ui-router": "github:angular-ui/ui-router@0.2.18",
+    "ui-router-extras": "github:christopherthielen/ui-router-extras@0.1.2",
+    "github:angular-ui/ui-router@0.2.18": {
+      "angular": "github:angular/bower-angular@1.5.5"
+    },
+    "github:components/jqueryui@1.11.4": {
+      "jquery": "npm:jquery@2.2.3"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },

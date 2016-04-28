@@ -1,1 +1,10 @@
 /* main.scss */
+
+body,
+[ui-view],
+.body-dashboard {
+  background-color: black;
+  min-width: 100%;
+  min-height: 100%;
+  overflow:auto
+}

@@ -7,7 +7,7 @@
     load('jspm_packages/system.js');
     load('config.js');
     load('bundles.js');
-    load('bootstrap.js');
+    load('run.js');
 
 })();
 
