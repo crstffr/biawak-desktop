@@ -16,10 +16,10 @@ System.config({
     "angular": "github:angular/bower-angular@1.5.5",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
+    "bootstrap": "npm:bootstrap@4.0.0-alpha.2",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.21",
     "jquery": "npm:jquery@2.2.3",
-    "jquery-ui": "github:components/jqueryui@1.11.4",
     "lodash": "npm:lodash@4.11.1",
     "socketio": "github:socketio/socket.io-client@1.4.5",
     "socketio-wildcard": "npm:socketio-wildcard@0.3.0",
@@ -28,9 +28,6 @@ System.config({
     "ui-router-extras": "github:christopherthielen/ui-router-extras@0.1.2",
     "github:angular-ui/ui-router@0.2.18": {
       "angular": "github:angular/bower-angular@1.5.5"
-    },
-    "github:components/jqueryui@1.11.4": {
-      "jquery": "npm:jquery@2.2.3"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -54,6 +51,12 @@ System.config({
       "util": "npm:util@0.10.3"
     },
     "npm:babel-runtime@5.8.38": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:bootstrap@4.0.0-alpha.2": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "jquery": "npm:jquery@2.2.3",
+      "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:buffer@3.6.0": {
