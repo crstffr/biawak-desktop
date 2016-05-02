@@ -52,11 +52,8 @@ var globs = {
         sass: {
             main: [
 
-                // Files that are watched and then rebuilt into
-                // main.min.css when they are modified.
+                paths.sass + '**/*.scss'
 
-                paths.sass + 'main.scss',
-                paths.sass + '_settings.scss'
             ],
             comp: [
 
@@ -66,13 +63,6 @@ var globs = {
                 paths.components + '**/*.scss',
                 paths.modules + '**/*.scss',
                 paths.sass + '_settings.scss'
-            ],
-            vendor: [
-
-                // Files that are watched and then rebuilt into
-                // vendor.min.css when they are modified.
-
-                paths.sass + 'theme.scss'
             ]
         }
     },
@@ -107,7 +97,6 @@ gulp.task('sass', 'Compile Sass into CSS', function (done) {
     sequence(
         'build-main-css',
         'build-comp-css',
-        'build-vendor-css',
         done
     );
 });
@@ -159,28 +148,6 @@ gulp.task('clean-bundles', function () {
  * BUILD public
  ***********************/
 
-gulp.task('build-main-css', function () {
-
-    var sass = require('gulp-sass');
-    var rename = require('gulp-rename');
-    var minifyCSS = require('gulp-clean-css');
-    var sourcemaps = require('gulp-sourcemaps');
-    var sassJspm = require('sass-jspm-importer');
-
-    return gulp.src(globs.public.sass.main)
-        .pipe(sourcemaps.init())
-        .pipe(sass({
-            errLogToConsole: true,
-            includePaths: [paths.sass],
-            functions: sassJspm.resolve_function(paths.config.jspm),
-            importer: sassJspm.importer
-        }).on('error', sass.logError))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(minifyCSS())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.css));
-});
-
 gulp.task('build-comp-css', function () {
 
     var sass = require('gulp-sass');
@@ -203,7 +170,7 @@ gulp.task('build-comp-css', function () {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('build-vendor-css', function () {
+gulp.task('build-main-css', function () {
 
     var sass = require('gulp-sass');
     var rename = require('gulp-rename');
@@ -211,7 +178,7 @@ gulp.task('build-vendor-css', function () {
     var sourcemaps = require('gulp-sourcemaps');
     var sassJspm = require('sass-jspm-importer');
 
-    return gulp.src(globs.public.sass.vendor)
+    return gulp.src(globs.public.sass.main)
         .pipe(sourcemaps.init())
         .pipe(sass({
             errLogToConsole: true,

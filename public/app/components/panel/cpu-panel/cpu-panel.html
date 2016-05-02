@@ -1,0 +1,25 @@
+<info-panel heading="CPU Panel">
+
+    <table class="table">
+        <tr>
+            <td>Manufacturer</td>
+            <td>{{cpuCtrl.cpu.manufacturer}}</td>
+        </tr>
+        <tr>
+            <td>Model</td>
+            <td>{{cpuCtrl.cpu.model}}</td>
+        </tr>
+        <tr ng-repeat="temp in cpuCtrl.cpu.temps">
+            <td>{{temp.Name}}</td>
+            <td>{{temp.Value}} °C</td>
+        </tr>
+        <tr ng-repeat="load in cpuCtrl.cpu.loads">
+            <td>{{load.Name}}</td>
+            <td>{{load.Value | percentage}}</td>
+        </tr>
+        <tr ng-repeat="clock in cpuCtrl.cpu.clocks">
+            <td>{{clock.Name}}</td>
+            <td>{{clock.Value | clockspeed}}</td>
+        </tr>
+    </table>
+</info-panel>

@@ -1,0 +1,25 @@
+<info-panel heading="Connect to Server" type="primary">
+
+    <form>
+        <div class="form-group">
+            <label for="serverAddress">Server Address</label>
+            <input required type="input"
+                   class="form-control"
+                   id="serverAddress"
+                   ng-model="connectCtrl.ip"
+                   ng-change="connectCtrl.clearAlerts()">
+        </div>
+
+        <div class="alert alert-danger" role="alert" ng-if="connectCtrl.failed">
+            Unable to connect to the specified address.
+        </div>
+
+        <div class="text-right">
+            <button type="submit"
+                    class="btn btn-success"
+                    ng-disabled="!connectCtrl.ip"
+                    ng-click="connectCtrl.connect(connectCtrl.ip)">Connect</button>
+        </div>
+    </form>
+
+</info-panel>
