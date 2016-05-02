@@ -11,7 +11,6 @@ module.exports = {
         minify: true,
         mangle: true,
         sourceMaps: true,
-        separateCSS: true,
         lowResSourceMaps: true
     },
 
@@ -19,6 +18,7 @@ module.exports = {
         libs: {
             items: [
                 'angular',
+                'jquery',
                 'lodash'
             ]
         },
