@@ -1,0 +1,5 @@
+<panel heading="CPU Load">
+    <div ng-repeat="load in cpuLoad.loads">
+        Core #{{$index + 1}} <livemeter value="load.Value" type="load"></livemeter>
+    </div>
+</panel>

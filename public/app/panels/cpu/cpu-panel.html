@@ -11,7 +11,7 @@
         </tr>
         <tr ng-repeat="temp in cpuCtrl.cpu.temps">
             <td>{{temp.Name}}</td>
-            <td>{{temp.Value}} °C</td>
+            <td><livemeter value="temp.Value" type="Temp"></livemeter></td>
         </tr>
         <tr ng-repeat="load in cpuCtrl.cpu.loads">
             <td>{{load.Name}}</td>

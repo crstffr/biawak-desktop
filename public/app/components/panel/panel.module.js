@@ -1,8 +1,10 @@
 var angular = require('angular');
 
+require('./panel.min.css!');
+
 module.exports = angular
-    .module('infoPanel', [])
-    .directive('infoPanel', function () {
+    .module('panel', [])
+    .directive('panel', function () {
         return {
             scope: {
                 type: '@',
@@ -13,7 +15,7 @@ module.exports = angular
             bindToController: true,
             controllerAs: 'panelCtrl',
             controller: InfoPanelController,
-            template: require('./info-panel.html!text')
+            template: require('./panel.html!text')
         };
     }).name;
 

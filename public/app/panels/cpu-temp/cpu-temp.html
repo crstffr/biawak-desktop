@@ -1,0 +1,10 @@
+<panel heading="CPU Temp">
+    <div ng-repeat="temp in cpuTemp.temps">
+        Core #{{$index + 1}}
+        <livemeter type="temp"
+                   value="temp.Value"
+                   info="{{temp.Value < 35}}"
+                   warning="{{temp.Value >= 35 && temp.Value < 70}}"
+                   danger="{{temp.Value >= 70}}"></livemeter>
+    </div>
+</panel>

@@ -4,14 +4,10 @@ var angular = require('angular');
 var route = angular
     .module('route.dashboard', [
         require('angular-dragula')(angular),
-        require('../../filters/clockspeed.filter'),
-        require('../../filters/percentage.filter'),
-        require('../../modules/collector/collector.module'),
-        require('../../components/panel/info-panel.module'),
-        require('../../components/panel/connect-panel/connect-panel.module'),
-        require('../../components/panel/cpu-panel/cpu-panel.module'),
-        require('../../components/panel/fan-panel/fan-panel.module'),
-        require('../../components/panel/gpu-panel/gpu-panel.module')
+        require('app/panels/connect/connect.module'),
+        require('app/panels/cpu-temp/cpu-temp.module'),
+        require('app/panels/cpu-load/cpu-load.module'),
+        require('app/panels/fan-speed/fan-speed.module')
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state({

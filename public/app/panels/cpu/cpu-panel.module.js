@@ -1,7 +1,9 @@
 var angular = require('angular');
 
 module.exports = angular
-    .module('cpuInfoPanel', [])
+    .module('panel.cpu-info', [
+        require('../../meter/meter.module')
+    ])
     .directive('cpuInfoPanel', function () {
         return {
             restrict: 'E',
