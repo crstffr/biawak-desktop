@@ -1,13 +1,13 @@
 var socketio = require('socketio');
 var forEach = require('lodash/forEach');
 var wildcard = require('socketio-wildcard');
-var feathers = require('../../vendor/feathers');
+var feathers = require('vendor/feathers');
 
-module.exports = ConnectionService;
+module.exports = Service;
 
-ConnectionService.$inject = ['$q', '$timeout'];
+Service.$inject = ['$q', '$timeout'];
 
-function ConnectionService($q, $timeout) {
+function Service($q, $timeout) {
 
     var _this = this;
     

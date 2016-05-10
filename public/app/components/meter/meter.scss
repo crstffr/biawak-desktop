@@ -1,0 +1,23 @@
+livemeter {
+
+  width: 100%;
+  display: block;
+  margin: 0 0 15px;
+
+  .progress {
+    margin-bottom: 0;
+  }
+
+  .progressbar-back-text {
+    display:none;
+  }
+
+  .progress-bar {
+    -webkit-transition: width .3s linear;
+    -moz-transition: width .3s linear;
+    -ms-transition: width .3s linear;
+    -o-transition: width .3s linear;
+    transition: width .3s linear;
+  }
+
+}

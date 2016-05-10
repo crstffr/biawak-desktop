@@ -1,0 +1,5 @@
+<panel heading="Fan Speed">
+    <div ng-repeat="fan in fanSpeed.fans">
+        {{fan.Name}} <livemeter type="fan" value="fan.Value" max="4000"></livemeter>
+    </div>
+</panel>

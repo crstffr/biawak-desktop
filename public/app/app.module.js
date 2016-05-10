@@ -1,7 +1,7 @@
 
 var angular = require('angular');
 
-require('./vendor/bootstrap');
+require('vendor/bootstrap');
 require('./app.style');
 
 var app = angular

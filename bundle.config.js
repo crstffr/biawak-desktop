@@ -27,7 +27,7 @@ module.exports = {
             items: [
                 'socketio',
                 'socketio-wildcard',
-                'app/vendor/feathers'
+                'vendor/feathers'
             ]
         },
         app: {
