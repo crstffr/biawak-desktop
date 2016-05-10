@@ -18,8 +18,8 @@ function HardwareCollector() {
         }),
 
         wmi: {
-            class: 'Hardware',
-            namespace: 'root/OpenHardwareMonitor'
+            namespace: 'root/OpenHardwareMonitor',
+            query: 'SELECT * FROM Hardware'
         }
     });
 

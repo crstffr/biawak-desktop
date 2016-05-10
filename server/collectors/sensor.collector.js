@@ -18,8 +18,8 @@ function SensorCollector() {
         }),
         
         wmi: {
-            class: 'Sensor',
-            namespace: 'root/OpenHardwareMonitor'
+            namespace: 'root/OpenHardwareMonitor',
+            query: 'SELECT * FROM Sensor'
         }
     });
 

@@ -27,8 +27,7 @@ function CollectorModel(opts) {
             namespace: _this.opts.wmi.namespace
         });
 
-        var query = _this.opts.wmi.query || 'Select *';
-        _this.query = query + ' FROM ' + _this.opts.wmi.class;
+        _this.query = _this.opts.wmi.query;
     }
 
     /**

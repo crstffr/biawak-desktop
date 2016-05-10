@@ -19,8 +19,7 @@ function ProcessCollector() {
         }),
 
         wmi: {
-            class: 'Win32_PerfFormattedData_PerfProc_Process',
-            query: 'Select IDProcess, Name, ThreadCount'
+            query: 'Select IDProcess, Name, ThreadCount FROM Win32_PerfFormattedData_PerfProc_Process'
         }
     });
 

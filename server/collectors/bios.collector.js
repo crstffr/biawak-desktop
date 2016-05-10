@@ -18,7 +18,7 @@ function BiosCollector() {
         }),
 
         wmi: {
-            class: 'Win32_BIOS'
+            query: 'SELECT * FROM Win32_BIOS'
         }
     });
 
